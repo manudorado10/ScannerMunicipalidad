@@ -18,47 +18,64 @@ namespace ScannerMuni
         public Scanner()
         {
             InitializeComponent();
-            
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            IniciarScanner();
-            MoverArchivos();
-            
+            if (Environment.GetCommandLineArgs().Length > 1)
+            {
+                if (Directory.Exists(ConfigurationManager.AppSettings["pathOrigen"]))
+                {
+                    if (Directory.Exists(ConfigurationManager.AppSettings["pathDestino"]))
+                    {
+                        IniciarScanner();
+                        MoverArchivos();
+                    }
+                    else 
+                    { 
+                        MessageBox.Show("El directorio destino no se encuentra", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    }
+                }
+                else 
+                { 
+                    MessageBox.Show("El directorio origen no se encuentra", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                }
+            }
+            else
+            {
+                MessageBox.Show("Los parametros enviados son nulos", "File Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void MoverArchivos()
         {
-            string srcDir = ConfigurationManager.AppSettings["pathOrigen"];
-            string destDir = ConfigurationManager.AppSettings["pathDestino"];
-
-            DirectoryInfo dir = new DirectoryInfo(srcDir);
-            if (Directory.Exists(srcDir))
+            DirectoryInfo dir = new DirectoryInfo(ConfigurationManager.AppSettings["pathOrigen"]);
+            
+            if (dir.GetFiles().Count() == 1)
             {
-                if (Directory.Exists(destDir))
+                if (MessageBox.Show($"¿Desea mover los {dir.GetFiles().Count()} archivos de la carpeta origen?", "Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (dir.GetFiles().Count() > 0)
+                    foreach (FileInfo file in dir.GetFiles())
                     {
-                        if (MessageBox.Show($"¿Desea mover los {dir.GetFiles().Count()} archivos de la carpeta origen?", "Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        string newFileName = GetFileName() + ".pdf";
+                        if (newFileName!= ".pdf" && !File.Exists(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName)))
                         {
-                            foreach (FileInfo file in dir.GetFiles())
-                            {
-                                string newFileName = GetFileName() + ".pdf";
-                                if (!File.Exists(Path.Combine(destDir, newFileName)))
-                                {
-                                    file.MoveTo(Path.Combine(destDir, newFileName));
-                                    MessageBox.Show("Archivo movido con exito", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-                                else{ MessageBox.Show("Ya existe un archivo con ese nombre", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                            }
+                            file.MoveTo(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName));
+                            MessageBox.Show("Archivo movido con exito", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Application.Exit();
+                        }
+                        else
+                        { 
+                            MessageBox.Show("Ya existe un archivo con ese nombre", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
                         }
                     }
-                    else { MessageBox.Show("No existen archivos en la carpeta origen", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                else { MessageBox.Show("El directorio destino no encontrado", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            else { MessageBox.Show("El directorio origen no encontrado", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else 
+            { 
+                MessageBox.Show("No existen archivos para mover", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+            }
         }
 
         public void IniciarScanner()
@@ -81,7 +98,7 @@ namespace ScannerMuni
                     Process startedProcess = CheckIfProcessStarted(process);
                     if (starProcess == true)
                     {
-                        lblEstado.Text = "TRABAJANDO";
+                        lblEstado.Text = "EN PROCESO";
                     }
                     process.WaitForExit();
                     if (process.HasExited == true)
@@ -96,6 +113,7 @@ namespace ScannerMuni
                 MessageBox.Show(ex.Message + "  " + ex.InnerException, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private Process CheckIfProcessStarted(Process process)
         {
             return Process.GetProcessById(process.Id);
@@ -103,33 +121,16 @@ namespace ScannerMuni
 
         private string GetFileName() 
         {
-            string filePath = ConfigurationManager.AppSettings["pathFileName"];
-            string filename = ReadArgumentsFromFile(filePath);
 
-            if (!string.IsNullOrEmpty(filename))
+
+            if (Environment.GetCommandLineArgs().Length>1)
             {
-                return filename;
+                return Environment.GetCommandLineArgs()[1];
             }
             else 
             { 
-                MessageBox.Show("Nombre de archivo no encontrado", "FileName", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Los parametros enviados son nulos", "Name Args", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return "";
-            }
-        }
-
-        static string ReadArgumentsFromFile(string filePath)
-        {
-            try
-            {
-                using (StreamReader sr = new StreamReader(filePath))
-                {
-                    return sr.ReadLine();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al leer el archivo de argumentos: " + ex.Message, "FileName", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
             }
         }
 
