@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Xml;
+
 namespace ScannerMuni
 {
     public partial class FormSettings : Form
@@ -18,7 +20,6 @@ namespace ScannerMuni
             txtOriginFolder.Text = ConfigurationManager.AppSettings["pathOrigen"];
             txtDestinationFolder.Text = ConfigurationManager.AppSettings["pathDestino"];
             txtScannerPath.Text = ConfigurationManager.AppSettings["pathScanner"];
-            txtFileName.Text = ConfigurationManager.AppSettings["pathFileName"];
         }
 
         private void btnOriginFolder_Click(object sender, EventArgs e)
@@ -35,9 +36,7 @@ namespace ScannerMuni
             if (fBDestination.ShowDialog() == DialogResult.OK)
             {
                 txtDestinationFolder.Text = fBDestination.SelectedPath;
-                
             }
-
         }
 
         private void btnScannerPath_Click(object sender, EventArgs e)
@@ -45,19 +44,7 @@ namespace ScannerMuni
             if (oFDScanner.ShowDialog() == DialogResult.OK)
             {
                 txtScannerPath.Text = oFDScanner.FileName;
-                
             }
-
-        }
-
-        private void btnFileNamePath_Click(object sender, EventArgs e)
-        {
-            if (oFDNames.ShowDialog() == DialogResult.OK)
-            {
-                txtFileName.Text = oFDNames.FileName;
-                
-            }
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -70,34 +57,28 @@ namespace ScannerMuni
             ActualizarConfiguracion("pathOrigen", txtOriginFolder.Text);
             ActualizarConfiguracion("pathDestino", txtDestinationFolder.Text);
             ActualizarConfiguracion("pathScanner", txtScannerPath.Text);
-            ActualizarConfiguracion("pathFileName", txtFileName.Text);
             Close();
         }
 
         private void ActualizarConfiguracion(string atributo, string nuevoValor)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (atributo == "pathOrigen" & ConfigurationManager.AppSettings["pathOrigen"]!= txtOriginFolder.Text)
+            XmlDocument configuracion = new XmlDocument();
+            configuracion.Load(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath);
+            foreach (XmlElement element in configuracion.DocumentElement) 
             {
-                config.AppSettings.Settings.Remove("pathOrigen");
-                config.AppSettings.Settings.Add("pathOrigen", txtOriginFolder.Text);
+                if (element.Name.Equals("appSettings")) 
+                {
+                    foreach (XmlNode node in element.ChildNodes) 
+                    {
+                        if (node.Attributes[0].Value == atributo && node.Attributes[1].Value != nuevoValor) 
+                        {
+                            node.Attributes[1].Value = nuevoValor;
+                        }
+                    }
+                }
             }
-            if (atributo == "pathDestino" & ConfigurationManager.AppSettings["pathDestino"] != txtDestinationFolder.Text)
-            {
-                config.AppSettings.Settings.Remove("pathDestino");
-                config.AppSettings.Settings.Add("pathDestino", txtDestinationFolder.Text);
-            }
-            if (atributo == "pathScanner" & ConfigurationManager.AppSettings["pathScanner"] != txtScannerPath.Text)
-            {
-                config.AppSettings.Settings.Remove("pathScanner");
-                config.AppSettings.Settings.Add("pathScanner", txtScannerPath.Text);
-            }
-            if (atributo == "pathFileName" & ConfigurationManager.AppSettings["pathFileName"] != txtFileName.Text)
-            {
-                config.AppSettings.Settings.Remove("pathFileName");
-                config.AppSettings.Settings.Add("pathFileName", txtFileName.Text);
-            }
-            config.Save(ConfigurationSaveMode.Modified);
+            configuracion.Save(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath);
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }

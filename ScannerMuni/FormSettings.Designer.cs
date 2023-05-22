@@ -38,9 +38,6 @@ namespace ScannerMuni
             this.btnScannerPath = new System.Windows.Forms.Button();
             this.txtScannerPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnFileNamePath = new System.Windows.Forms.Button();
-            this.txtFileName = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.fBDOrigin = new System.Windows.Forms.FolderBrowserDialog();
@@ -127,35 +124,9 @@ namespace ScannerMuni
             this.label3.TabIndex = 9;
             this.label3.Text = "Scanner:";
             // 
-            // btnFileNamePath
-            // 
-            this.btnFileNamePath.Location = new System.Drawing.Point(629, 96);
-            this.btnFileNamePath.Name = "btnFileNamePath";
-            this.btnFileNamePath.Size = new System.Drawing.Size(39, 23);
-            this.btnFileNamePath.TabIndex = 14;
-            this.btnFileNamePath.Text = "/..";
-            this.btnFileNamePath.UseVisualStyleBackColor = true;
-            this.btnFileNamePath.Click += new System.EventHandler(this.btnFileNamePath_Click);
-            // 
-            // txtFileName
-            // 
-            this.txtFileName.Location = new System.Drawing.Point(133, 96);
-            this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(490, 23);
-            this.txtFileName.TabIndex = 13;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 100);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 15);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "Archivo de nombres";
-            // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(466, 125);
+            this.btnAccept.Location = new System.Drawing.Point(466, 96);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(98, 27);
             this.btnAccept.TabIndex = 15;
@@ -165,7 +136,7 @@ namespace ScannerMuni
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(570, 125);
+            this.btnClose.Location = new System.Drawing.Point(570, 96);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(98, 27);
             this.btnClose.TabIndex = 16;
@@ -185,12 +156,9 @@ namespace ScannerMuni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(673, 158);
+            this.ClientSize = new System.Drawing.Size(673, 131);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.btnFileNamePath);
-            this.Controls.Add(this.txtFileName);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnScannerPath);
             this.Controls.Add(this.txtScannerPath);
             this.Controls.Add(this.label3);
@@ -218,9 +186,6 @@ namespace ScannerMuni
         private System.Windows.Forms.Button btnScannerPath;
         private System.Windows.Forms.TextBox txtScannerPath;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnFileNamePath;
-        private System.Windows.Forms.TextBox txtFileName;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.FolderBrowserDialog fBDOrigin;
