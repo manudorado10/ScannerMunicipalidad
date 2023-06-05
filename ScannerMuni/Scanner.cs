@@ -85,15 +85,12 @@ namespace ScannerMuni
 
             if (dir.GetFiles().Count() == 1)
             {
-                if (MessageBox.Show($"¿Desea mover los {dir.GetFiles().Count()} archivos de la carpeta origen?", "Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
                     foreach (FileInfo file in dir.GetFiles())
                     {
                         string newFileName = GetFileName() + ".pdf";
                         if (newFileName != ".pdf" && !File.Exists(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName)))
                         {
                             file.MoveTo(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName));
-                            MessageBox.Show("Archivo movido con exito", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Application.Exit();
                         }
                         else
@@ -102,12 +99,9 @@ namespace ScannerMuni
                             Application.Exit();
                         }
                     }
-                }
+                
             }
-            else
-            {
-                MessageBox.Show("No existen archivos para mover", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+           
         }
 
         public void IniciarScanner()
@@ -177,6 +171,11 @@ namespace ScannerMuni
                     configuracion.ShowDialog();
                 }
             }
+        }
+
+        private void Scanner_Load(object sender, EventArgs e)
+        {
+
         }
     }
 
