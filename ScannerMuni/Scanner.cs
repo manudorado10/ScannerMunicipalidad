@@ -85,22 +85,29 @@ namespace ScannerMuni
 
             if (dir.GetFiles().Count() == 1)
             {
+
                 foreach (FileInfo file in dir.GetFiles())
                 {
                     string antName = file.FullName;
                     if (GetFileName()!="")
+
+                    foreach (FileInfo file in dir.GetFiles())
+
                     {
                         
                         try
                         {
+
                             file.MoveTo(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], GetFileName() + ".pdf"));
                             MessageBox.Show("El archivo fue movido correctamente", "Scanner", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         }
                         catch (Exception e) 
                         {
                             MessageBox.Show("El movimiento fallo: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
+
                     DeleteFileOrigen(antName);
                     Application.Exit();
                 }
@@ -108,7 +115,9 @@ namespace ScannerMuni
             else
             {
                 MessageBox.Show("No existen archivos para mover", "Scanner", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
+           
         }
 
         public void IniciarScanner()
@@ -177,6 +186,7 @@ namespace ScannerMuni
                 }
             }
         }
+
         
         private void DeleteFileOrigen(string oldName)  
         {
@@ -191,6 +201,12 @@ namespace ScannerMuni
                     MessageBox.Show("El borrado fallo: {0}" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void Scanner_Load(object sender, EventArgs e)
+        {
+
+
         }
     }
 

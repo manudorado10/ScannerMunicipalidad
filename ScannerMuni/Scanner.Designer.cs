@@ -29,62 +29,63 @@ namespace ScannerMuni
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnPlay = new System.Windows.Forms.Button();
-            this.fBDOrigin = new System.Windows.Forms.FolderBrowserDialog();
-            this.fBDDestiny = new System.Windows.Forms.FolderBrowserDialog();
-            this.lblState = new System.Windows.Forms.Label();
-            this.oFDScanner = new System.Windows.Forms.OpenFileDialog();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.btnConfiguration = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            btnPlay = new System.Windows.Forms.Button();
+            fBDOrigin = new System.Windows.Forms.FolderBrowserDialog();
+            fBDDestiny = new System.Windows.Forms.FolderBrowserDialog();
+            lblState = new System.Windows.Forms.Label();
+            oFDScanner = new System.Windows.Forms.OpenFileDialog();
+            lblEstado = new System.Windows.Forms.Label();
+            btnConfiguration = new System.Windows.Forms.Button();
+            SuspendLayout();
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(12, 58);
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(202, 43);
-            this.btnPlay.TabIndex = 7;
-            this.btnPlay.Text = "Iniciar";
-            this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnAccept_Click);
+            btnPlay.Location = new System.Drawing.Point(12, 58);
+            btnPlay.Name = "btnPlay";
+            btnPlay.Size = new System.Drawing.Size(202, 43);
+            btnPlay.TabIndex = 7;
+            btnPlay.Text = "Iniciar";
+            btnPlay.UseVisualStyleBackColor = true;
+            btnPlay.Click += btnAccept_Click;
             // 
             // lblState
             // 
-            this.lblState.AutoSize = true;
-            this.lblState.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblState.Location = new System.Drawing.Point(12, 119);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(59, 21);
-            this.lblState.TabIndex = 9;
-            this.lblState.Text = "Estado:";
+            lblState.AutoSize = true;
+            lblState.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            lblState.Location = new System.Drawing.Point(12, 119);
+            lblState.Name = "lblState";
+            lblState.Size = new System.Drawing.Size(59, 21);
+            lblState.TabIndex = 9;
+            lblState.Text = "Estado:";
             // 
             // oFDScanner
             // 
-            this.oFDScanner.FileName = "oFDScanner";
+            oFDScanner.FileName = "oFDScanner";
             // 
             // lblEstado
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblEstado.Location = new System.Drawing.Point(64, 140);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(106, 28);
-            this.lblEstado.TabIndex = 13;
-            this.lblEstado.Text = "PAUSADO";
+            lblEstado.AutoSize = true;
+            lblEstado.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            lblEstado.Location = new System.Drawing.Point(64, 140);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new System.Drawing.Size(106, 28);
+            lblEstado.TabIndex = 13;
+            lblEstado.Text = "PAUSADO";
             // 
             // btnConfiguration
             // 
-            this.btnConfiguration.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnConfiguration.Location = new System.Drawing.Point(12, 12);
-            this.btnConfiguration.Name = "btnConfiguration";
-            this.btnConfiguration.Size = new System.Drawing.Size(202, 40);
-            this.btnConfiguration.TabIndex = 15;
-            this.btnConfiguration.Text = "Configuración";
-            this.btnConfiguration.UseVisualStyleBackColor = false;
-            this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguracion_Click);
+            btnConfiguration.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            btnConfiguration.Location = new System.Drawing.Point(12, 12);
+            btnConfiguration.Name = "btnConfiguration";
+            btnConfiguration.Size = new System.Drawing.Size(202, 40);
+            btnConfiguration.TabIndex = 15;
+            btnConfiguration.Text = "Configuración";
+            btnConfiguration.UseVisualStyleBackColor = false;
+            btnConfiguration.Click += btnConfiguracion_Click;
             // 
             // Scanner
             // 
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(226, 177);
