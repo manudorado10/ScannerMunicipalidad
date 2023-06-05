@@ -85,19 +85,21 @@ namespace ScannerMuni
             // 
             // Scanner
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(226, 177);
-            Controls.Add(btnConfiguration);
-            Controls.Add(lblEstado);
-            Controls.Add(lblState);
-            Controls.Add(btnPlay);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            Name = "Scanner";
-            Text = "Scanner";
-            Load += Scanner_Load;
-            ResumeLayout(false);
-            PerformLayout();
+
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(226, 177);
+            this.Controls.Add(this.btnConfiguration);
+            this.Controls.Add(this.lblEstado);
+            this.Controls.Add(this.lblState);
+            this.Controls.Add(this.btnPlay);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "Scanner";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Scanner";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
