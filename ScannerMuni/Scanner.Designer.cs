@@ -94,6 +94,7 @@ namespace ScannerMuni
             this.Controls.Add(this.btnPlay);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Scanner";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Scanner";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Configuration;
-using System.Net.NetworkInformation;
+//using System.Net.NetworkInformation;
 
 namespace ScannerMuni
 {
@@ -23,41 +23,43 @@ namespace ScannerMuni
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            bool isConnected = Internet();
-            if (isConnected)
+            //bool isConnected = Internet();
+            //if (isConnected)
+            //{
+
+            if (Environment.GetCommandLineArgs().Length > 1)
             {
-                if (Environment.GetCommandLineArgs().Length > 1)
+                if (Directory.Exists(ConfigurationManager.AppSettings["pathOrigen"]))
                 {
-                    if (Directory.Exists(ConfigurationManager.AppSettings["pathOrigen"]))
+                    if (Directory.Exists(ConfigurationManager.AppSettings["pathDestino"]))
                     {
-                        if (Directory.Exists(ConfigurationManager.AppSettings["pathDestino"]))
-                        {
-                            IniciarScanner();
-                            MoverArchivos();
-                        }
-                        else
-                        {
-                            MessageBox.Show("El directorio destino no se encuentra", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        IniciarScanner();
+                        MoverArchivos();
                     }
                     else
                     {
-                        MessageBox.Show("El directorio origen no se encuentra", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("El directorio destino no se encuentra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Los parametros enviados son nulos", "File Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El directorio origen no se encuentra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             }
             else
             {
-                MessageBox.Show("Comprobar la conexion de internet", "Internet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Los parametros enviados son nulos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
+
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Comprobar la conexion de internet", "Internet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
-
+        /*
         public static bool Internet()
         {
             try
@@ -75,9 +77,7 @@ namespace ScannerMuni
             {
                 return false;
             }
-        }
-
-
+        }*/
 
         public void MoverArchivos()
         {
@@ -85,28 +85,29 @@ namespace ScannerMuni
 
             if (dir.GetFiles().Count() == 1)
             {
-                if (MessageBox.Show($"¿Desea mover los {dir.GetFiles().Count()} archivos de la carpeta origen?", "Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                foreach (FileInfo file in dir.GetFiles())
                 {
-                    foreach (FileInfo file in dir.GetFiles())
+                    string antName = file.FullName;
+                    if (GetFileName()!="")
                     {
-                        string newFileName = GetFileName() + ".pdf";
-                        if (newFileName != ".pdf" && !File.Exists(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName)))
+                        
+                        try
                         {
-                            file.MoveTo(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], newFileName));
-                            MessageBox.Show("Archivo movido con exito", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Application.Exit();
+                            file.MoveTo(Path.Combine(ConfigurationManager.AppSettings["pathDestino"], GetFileName() + ".pdf"));
+                            MessageBox.Show("El archivo fue movido correctamente", "Scanner", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        else
+                        catch (Exception e) 
                         {
-                            MessageBox.Show("Ya existe un archivo con ese nombre", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            Application.Exit();
+                            MessageBox.Show("El movimiento fallo: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
+                    DeleteFileOrigen(antName);
+                    Application.Exit();
                 }
             }
             else
             {
-                MessageBox.Show("No existen archivos para mover", "ScannerInfo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No existen archivos para mover", "Scanner", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -120,7 +121,7 @@ namespace ScannerMuni
                 {
                     bool starProcess = false;
                     ProcessStartInfo startArgs = new ProcessStartInfo();
-                    startArgs.FileName = ConfigurationManager.AppSettings["pathScanner"]; // direccion del .exe del scanner C:\WINDOWS\system32\notepad.exe
+                    startArgs.FileName = ConfigurationManager.AppSettings["pathScanner"]; 
                     startArgs.Arguments = null;
 
                     Process process = new Process();
@@ -153,15 +154,13 @@ namespace ScannerMuni
 
         private string GetFileName()
         {
-
-
             if (Environment.GetCommandLineArgs().Length > 1)
             {
                 return Environment.GetCommandLineArgs()[1];
             }
             else
             {
-                MessageBox.Show("Los parametros enviados son nulos", "Name Args", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Los parametros enviados son nulos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return "";
             }
         }
@@ -178,7 +177,21 @@ namespace ScannerMuni
                 }
             }
         }
+        
+        private void DeleteFileOrigen(string oldName)  
+        {
+            if (File.Exists(oldName) == true)
+            {
+                try
+                {
+                    File.Delete(oldName);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("El borrado fallo: {0}" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
-
 
 }
