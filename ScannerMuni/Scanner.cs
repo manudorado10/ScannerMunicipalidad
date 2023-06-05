@@ -89,12 +89,8 @@ namespace ScannerMuni
                 foreach (FileInfo file in dir.GetFiles())
                 {
                     string antName = file.FullName;
-                    if (GetFileName()!="")
-
-                    foreach (FileInfo file in dir.GetFiles())
-
+                    if (GetFileName() != "")
                     {
-                        
                         try
                         {
 
@@ -102,14 +98,13 @@ namespace ScannerMuni
                             MessageBox.Show("El archivo fue movido correctamente", "Scanner", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         }
-                        catch (Exception e) 
+                        catch (Exception e)
                         {
                             MessageBox.Show("El movimiento fallo: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
+                        DeleteFileOrigen(antName);
+                        Application.Exit();
                     }
-
-                    DeleteFileOrigen(antName);
-                    Application.Exit();
                 }
             }
             else
